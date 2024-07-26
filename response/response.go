@@ -15,12 +15,12 @@ func JSON(c *gin.Context, statusCode int, data any) {
 	c.JSON(statusCode, data)
 }
 
-func SuccessData(c *gin.Context, data any) {
+func Succeed(c *gin.Context, data any) {
 	Failed(c, Code.Success, "", data)
 }
 
 func Success(c *gin.Context) {
-	SuccessData(c, nil)
+	Succeed(c, nil)
 }
 
 func Failed(c *gin.Context, code *ErrorCode, msg string, data any) {
