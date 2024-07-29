@@ -2,7 +2,6 @@ package response
 
 import (
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type Result struct {
@@ -28,7 +27,7 @@ func Failed(c *gin.Context, code *ErrorCode, msg string, data any) {
 		msg = code.Msg()
 	}
 	response := newResponse(code.Code(), msg, data)
-	JSON(c, http.StatusOK, response)
+	JSON(c, code.ToHTTPCode(), response)
 }
 
 func newResponse(code int, msg string, data any) *Result {
