@@ -1,21 +1,5 @@
 package response
 
-import (
-	"github.com/gin-gonic/gin"
-)
-
-func JSON(c *gin.Context, statusCode int, data any) {
-	c.JSON(statusCode, data)
-}
-
-func Success(c *gin.Context, result Result) {
-	Failed(c, result)
-}
-
-func Failed(c *gin.Context, result Result) {
-	JSON(c, result.ToHTTPCode(), result)
-}
-
 var (
 	OK                  = newResult(0, "ok")
 	InvalidParams       = newResult(10001, "Invalid Parameter")
