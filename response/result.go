@@ -57,7 +57,7 @@ func (r *Result) ToString() string {
 	return string(raw)
 }
 
-func (r *Result) ToHTTPCode() int {
+func (r *Result) StatusCode() int {
 	switch r.Code {
 	case OK.Code:
 		return http.StatusOK
