@@ -4,43 +4,40 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Result struct {
-	Code int    `json:"code"`
-	Msg  string `json:"msg"`
-	Data any    `json:"data"`
-}
-
 func JSON(c *gin.Context, statusCode int, data any) {
 	c.JSON(statusCode, data)
 }
 
-func Succeed(c *gin.Context, data any) {
-	Failed(c, Code.Success, "", data)
+func Success(c *gin.Context, result Result) {
+	Failed(c, result)
 }
 
-func Success(c *gin.Context) {
-	Succeed(c, nil)
+func Failed(c *gin.Context, result Result) {
+	JSON(c, result.ToHTTPCode(), result)
 }
 
-func Failed(c *gin.Context, code *ErrorCode, msg string, data any) {
-	if len(msg) == 0 {
-		msg = code.Msg()
-	}
-	response := newResponse(code.Code(), msg, data)
-	JSON(c, code.ToHTTPCode(), response)
-}
-
-func newResponse(code int, msg string, data any) *Result {
-	response := &Result{
-		Code: code,
-		Msg:  msg,
-	}
-
-	if data == nil {
-		response.Data = make([]interface{}, 0)
-	} else {
-		response.Data = data
-	}
-
-	return response
-}
+var (
+	OK                  = newResult(0, "ok")
+	InvalidParams       = newResult(10001, "Invalid Parameter")
+	Unauthorized        = newResult(10002, "Unauthorized")
+	InternalServerError = newResult(10003, "Internal Server Error")
+	NotFound            = newResult(10004, "Not Found")
+	AlreadyExists       = newResult(10005, "Conflict")
+	Timeout             = newResult(10006, "Request Timeout")
+	TooManyRequests     = newResult(10007, "Too Many Requests")
+	Forbidden           = newResult(10008, "Forbidden")
+	LimitExceed         = newResult(10009, "Limit Exceed")
+	DeadlineExceeded    = newResult(10010, "Deadline Exceeded")
+	AccessDenied        = newResult(10011, "Access Denied")
+	MethodNotAllowed    = newResult(10012, "Method Not Allowed")
+	ServiceUnavailable  = newResult(10013, "Service Unavailable")
+	Canceled            = newResult(10014, "Canceled")
+	Unknown             = newResult(10015, "Unknown")
+	PermissionDenied    = newResult(10016, "Permission Denied")
+	ResourceExhausted   = newResult(10017, "Resource Exhausted")
+	FailedPrecondition  = newResult(10018, "Failed Precondition")
+	Aborted             = newResult(10019, "Aborted")
+	OutOfRange          = newResult(10020, "Out Of Range")
+	Unimplemented       = newResult(10021, "Unimplemented")
+	DataLoss            = newResult(10022, "Data Loss")
+)
